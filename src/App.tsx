@@ -46,38 +46,42 @@ function App() {
 	console.log(foo("1000"));
 
 	interface DataFromAPI {
-		phone: string;
-		login: {
-			username: string;
-			password: string;
-		};
-		name: {
-			first: string;
-			last: string;
-		};
-		id: {
-			value: string;
-		};
+		results: {
+			phone: string;
+			login: {
+				username: string;
+				password: string;
+			};
+			name: {
+				first: string;
+				last: string;
+			};
+			id: {
+				value: string;
+			};
+		}[];
 	}
 
-	const { data } = useFetch<DataFromAPI>(
-		"https://randomuser.me/api?results=5"
+	const { data, error } = useFetch<DataFromAPI>(
+		"https://srandomuser.me/api?results=5"
 	);
 
 	return (
 		<div>
 			<div>
-				{data && (
+				{data ? (
 					<div>
 						<ul>
-							{data.map((person) => (
-								<li key={person.id.value}>
+							{data.results.map((person) => (
+								<li key={person.name.last}>
 									{person.login.username}
 								</li>
 							))}
 						</ul>
 						<p></p>
 					</div>
+				) : (
+					<p>{error}</p>
 				)}
 			</div>
 			<p>{theme.theme}</p>

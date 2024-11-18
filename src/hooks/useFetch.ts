@@ -1,13 +1,13 @@
 import { useEffect, useState } from "react";
 
 type UseFetchState<T> = {
-	data: T[];
+	data: T | null;
 	isLoading: boolean;
 	error?: string;
 };
 
 export const useFetch = <T>(url: string): UseFetchState<T> => {
-	const [data, setData] = useState<T[]>([]);
+	const [data, setData] = useState<T | null>(null);
 	const [isLoading, setIsLoading] = useState(false);
 	const [error, setError] = useState<string | undefined>(undefined);
 
@@ -16,14 +16,19 @@ export const useFetch = <T>(url: string): UseFetchState<T> => {
 		const fetchData = async () => {
 			try {
 				const response = await fetch(url);
-				const { results }: { results: T[] } = await response.json();
-				setData(results);
+
+				if (!response.ok) {
+					throw new Error(`HTTP error! status: ${response.status}`);
+				}
+				const jsonData: T = await response.json();
+				setData(jsonData);
 			} catch (error) {
 				setError((error as Error).message);
 			} finally {
 				setIsLoading(false);
 			}
 		};
+
 		fetchData();
 	}, [url]);
 
