@@ -5,6 +5,7 @@ import { useForm } from "./hooks/useForm";
 import { useTheme } from "./hooks/useTheme";
 import { filterItems } from "./utils/filterItems";
 import { foo } from "./utils/foo";
+import { useAxios } from "./hooks/useAxios";
 // import './App.css'
 
 interface FormData {
@@ -62,8 +63,12 @@ function App() {
 		}[];
 	}
 
-	const { data, error } = useFetch<DataFromAPI>(
-		"https://srandomuser.me/api?results=5"
+	// const { data, error } = useFetch<DataFromAPI>(
+	// 	"https://srandomuser.me/api?results=5"
+	// );
+
+	const { data, error } = useAxios<DataFromAPI>(
+		"https://randomuser.me/api?results=7"
 	);
 
 	return (
