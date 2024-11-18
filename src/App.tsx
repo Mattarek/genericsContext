@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { Table } from "./components/Table";
 import { useFetch } from "./hooks/useFetch";
 import { useForm } from "./hooks/useForm";
@@ -44,10 +45,41 @@ function App() {
 	console.log(foo(1000));
 	console.log(foo("1000"));
 
-	const data = useFetch("https://randomuser.me/api?result=5");
-	console.log(data);
+	interface DataFromAPI {
+		phone: string;
+		login: {
+			username: string;
+			password: string;
+		};
+		name: {
+			first: string;
+			last: string;
+		};
+		id: {
+			value: string;
+		};
+	}
+
+	const { data } = useFetch<DataFromAPI>(
+		"https://randomuser.me/api?results=5"
+	);
+
 	return (
 		<div>
+			<div>
+				{data && (
+					<div>
+						<ul>
+							{data.map((person) => (
+								<li key={person.id.value}>
+									{person.login.username}
+								</li>
+							))}
+						</ul>
+						<p></p>
+					</div>
+				)}
+			</div>
 			<p>{theme.theme}</p>
 			<button onClick={theme.toggleTheme}>Change color theme!</button>2
 			<div>

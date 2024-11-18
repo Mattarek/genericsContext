@@ -1,23 +1,22 @@
 import { useEffect, useState } from "react";
 
 type UseFetchState<T> = {
-	data: T | null;
+	data: T[];
 	isLoading: boolean;
-	error: string | null;
+	error?: string;
 };
 
 export const useFetch = <T>(url: string): UseFetchState<T> => {
-	const [data, setData] = useState<T | null>(null);
+	const [data, setData] = useState<T[]>([]);
 	const [isLoading, setIsLoading] = useState(false);
-	const [error, setError] = useState<string | null>(null);
+	const [error, setError] = useState<string | undefined>(undefined);
 
 	useEffect(() => {
 		setIsLoading(true);
-		setError(null);
 		const fetchData = async () => {
 			try {
 				const response = await fetch(url);
-				const data = await response.json();
+				const data: { results: T[] } = await response.json();
 				setData(data.results);
 			} catch (error) {
 				setError((error as Error).message);
