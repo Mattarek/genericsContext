@@ -16,8 +16,8 @@ export const useFetch = <T>(url: string): UseFetchState<T> => {
 		const fetchData = async () => {
 			try {
 				const response = await fetch(url);
-				const data: { results: T[] } = await response.json();
-				setData(data.results);
+				const { results }: { results: T[] } = await response.json();
+				setData(results);
 			} catch (error) {
 				setError((error as Error).message);
 			} finally {
