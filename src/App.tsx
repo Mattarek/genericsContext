@@ -1,4 +1,5 @@
 import { Table } from "./components/Table";
+import { useFetch } from "./hooks/useFetch";
 import { useForm } from "./hooks/useForm";
 import { useTheme } from "./hooks/useTheme";
 import { filterItems } from "./utils/filterItems";
@@ -30,6 +31,7 @@ function App() {
 
 	const numbers = [1, 2, 3, 4, 5, 6];
 	const strings = ["apple", "orange", "cherry", "blueberry"];
+
 	const filteredNumbers = filterItems(numbers, (num) => num < 2);
 	const filteredStrings = filterItems(strings, (str) => str.startsWith("b"));
 
@@ -42,6 +44,8 @@ function App() {
 	console.log(foo(1000));
 	console.log(foo("1000"));
 
+	const data = useFetch("https://randomuser.me/api?result=5");
+	console.log(data);
 	return (
 		<div>
 			<p>{theme.theme}</p>
