@@ -6,6 +6,8 @@ import { useTheme } from "./hooks/useTheme";
 import { filterItems } from "./utils/filterItems";
 import { foo } from "./utils/foo";
 import { useAxios } from "./hooks/useAxios";
+import { UserPermissions } from "./components/UserPermissions";
+import { UserRole } from "./enums/UserRole";
 // import './App.css'
 
 interface FormData {
@@ -90,7 +92,10 @@ function App() {
 				)}
 			</div>
 			<p>{theme.theme}</p>
-			<button onClick={theme.toggleTheme}>Change color theme!</button>2
+			<button onClick={theme.toggleTheme}>Change color theme!</button>
+			<div>
+				<UserPermissions role={UserRole.EDITOR} />
+			</div>
 			<div>
 				<input
 					type="text"
