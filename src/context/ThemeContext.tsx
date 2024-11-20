@@ -1,7 +1,18 @@
-import { createContext } from "react";
+import { useMemo, useState, type ReactNode } from "react";
+import { ThemeContext } from "./ThemeProvider";
 
-export interface ThemeContext {
-	theme: "light" | "dark";
-	toggleTheme: () => void;
+interface Props {
+	children: ReactNode;
 }
-export const ThemeContext = createContext<ThemeContext | undefined>(undefined);
+
+export const ThemeProvider: React.FC<Props> = ({ children }) => {
+	const [theme, setTheme] = useState<"light" | "dark">("light");
+	const toggleTheme = () => {
+		setTheme((theme) => (theme === "light" ? "dark" : "light"));
+	};
+
+	const value = useMemo(() => ({ theme, toggleTheme }), [theme]);
+	return (
+		<ThemeContext.Provider value={value}>{children}</ThemeContext.Provider>
+	);
+};
